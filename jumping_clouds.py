@@ -1,18 +1,25 @@
 n = int(input().strip())
-number_of_clouds = [int(tmp) for tmp in input().strip().split(' ')]
+
+clouds = [int(c) for c in input().strip().split(' ')]
+
 current = 0
+
 end = n - 1
+
 jumps = 0
 
 
 
 while current < end:
-    
-	if ((current + 2) <= end) and (number_of_clouds[current + 2] == 0):
+
+	if ((current + 2) <= end) and (clouds[current + 2] == 0):
 		current += 2
 		jumps += 1
 
-	elif number_of_clouds[current + 1] == 0:
+	elif clouds[current + 1] == 0:
 		current += 1
 		jumps += 1
 print(jumps)
+
+
+#Input n = 7, clouds = [0 0 1 0 0 1 0]
