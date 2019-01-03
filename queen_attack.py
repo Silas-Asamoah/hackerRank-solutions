@@ -20,3 +20,10 @@ for a0 in range(k):
             top = min(top, o_c - c_q - 1)
         else:
             bottom = min(bottom, c_q - o_c - 1)
+
+        #Vertical
+    elif o_c == c_q:
+        if o_r > r_q:
+            right = min(right, o_c - r_q - 1)
+        else:
+            left = min(left, c_q - o_r - 1)
