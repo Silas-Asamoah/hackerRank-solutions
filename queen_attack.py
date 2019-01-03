@@ -21,9 +21,27 @@ for a0 in range(k):
         else:
             bottom = min(bottom, c_q - o_c - 1)
 
-        #Vertical
+    #Vertical
     elif o_c == c_q:
         if o_r > r_q:
             right = min(right, o_c - r_q - 1)
         else:
             left = min(left, c_q - o_r - 1)
+
+    #Diagonals
+    elif abs(o_c - c_q) == (o_r - r_q):
+        #top right
+        if o_c > c_q and o_r > r_q:
+            top_right = min(top_right, o_c - c_q - 1)
+        elif o_c > c_q and o_r < r_q:
+            bottom_right = min(bottom_right, o_c - c_q - 1)
+        elif o_c < c_q and o_r > r_q:
+            top_left = min(top_left, c_q - o_c - 1)
+        elif o_c < c_q and o_r < r_q:
+            bottom_left = min(bottom_left, c_q - o_c - 1)
+        
+    
+
+
+
+print(top + bottom + right + left + top_left + top_right + bottom_left + bottom_right)
