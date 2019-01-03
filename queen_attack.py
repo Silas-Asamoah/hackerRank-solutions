@@ -1,47 +1,57 @@
-n , k = map(int, input().split(''))
-r_q, c_q = map(int, input().split(''))
+import math
+import os
+import random
+import re
+import sys
 
-top = n - r_q
-bottom = c_q - 1
-right = n - c_q
-left = c_q - 1
+def move_queen(n, updated_row, updated_col, r , c, obstacles):
+    p = 0
+    while True:
+        r = updated_row(r)
+        c = updated_col(c)
+        key = (r - 1) * n + c
+        if (c < 1 or c > n or r < 1 or r > n) or (key in obstacles):
+            return p
+        p += 1
+    return p
 
-top_left = min(top, left)
-top_right = min(top, right )
-bottom_left = min(bottom, left)
-bottom_right = min(bottom, right)
+# Complete the queensAttack function below.
+def queensAttack(n, k, r_q, c_q, obs):
+    obstacles = {}
+    for b in obs:
+        obstacles[(b[0] - 1) * n + b[1]] = None
 
-for a0 in range(k):
-    o_r, o_c = map(int, input().split(''))
-
-    #Horizontal
-    if o_r == r_q:
-        if o_c > c_q:
-            top = min(top, o_c - c_q - 1)
-        else:
-            bottom = min(bottom, c_q - o_c - 1)
-
-    #Vertical
-    elif o_c == c_q:
-        if o_r > r_q:
-            right = min(right, o_c - r_q - 1)
-        else:
-            left = min(left, c_q - o_r - 1)
-
-    #Diagonals
-    elif abs(o_c - c_q) == (o_r - r_q):
-        #top right
-        if o_c > c_q and o_r > r_q:
-            top_right = min(top_right, o_c - c_q - 1)
-        elif o_c > c_q and o_r < r_q:
-            bottom_right = min(bottom_right, o_c - c_q - 1)
-        elif o_c < c_q and o_r > r_q:
-            top_left = min(top_left, c_q - o_c - 1)
-        elif o_c < c_q and o_r < r_q:
-            bottom_left = min(bottom_left, c_q - o_c - 1)
-        
+    p = 0
+    dr = [-1, -1, -1, 0, 0 , 1 , 1,1]
+    dc = [0, -1, 1, 1, -1 , 0 , 1,-1]
     
+    for i in range(8):
+        p += move_queen(n, (lambda r: r + dr[i]), (lambda c: c + dc[i] ), r_q, c_q, obstacles)
 
+    return p
 
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
 
-print(top + bottom + right + left + top_left + top_right + bottom_left + bottom_right)
+    nk = input().split()
+
+    n = int(nk[0])
+
+    k = int(nk[1])
+
+    r_qC_q = input().split()
+
+    r_q = int(r_qC_q[0])
+
+    c_q = int(r_qC_q[1])
+
+    obstacles = []
+
+    for _ in range(k):
+        obstacles.append(list(map(int, input().rstrip().split())))
+
+    result = queensAttack(n, k, r_q, c_q, obstacles)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
